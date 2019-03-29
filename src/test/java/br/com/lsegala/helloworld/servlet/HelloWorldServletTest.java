@@ -25,6 +25,15 @@ public class HelloWorldServletTest {
         tester.start();
     }
 
+    private String template(String compl){
+        return EOL + EOL +
+                "<html>" + EOL +
+                "    <body>" + EOL +
+                "        <h1>Hello"+compl+"!</h1>" + EOL +
+                "    </body>" + EOL +
+                "</html>";
+    }
+
     @Test
     public void helloWorldHttpTestWithNoParams() throws Exception {
         HttpTester request = new HttpTester();
@@ -35,13 +44,7 @@ public class HelloWorldServletTest {
         request.setURI("/demo/hello");
         response.parse(tester.getResponses(request.generate()));
 
-        assertEquals(
-        EOL + EOL +
-                "<html>" + EOL +
-                "    <body>" + EOL +
-                "        <h1>Hello!</h1>" + EOL +
-                "    </body>" + EOL +
-                "</html>", response.getContent());
+        assertEquals(template(""), response.getContent());
     }
 
     @Test
@@ -54,13 +57,7 @@ public class HelloWorldServletTest {
         request.setURI("/demo/hello?name=Leonardo");
         response.parse(tester.getResponses(request.generate()));
 
-        assertEquals(
-        EOL + EOL +
-                "<html>" + EOL +
-                "    <body>" + EOL +
-                "        <h1>Hello, Leonardo!</h1>" + EOL +
-                "    </body>" + EOL +
-                "</html>", response.getContent());
+        assertEquals(template(", Leonardo"), response.getContent());
     }
 
     @After
