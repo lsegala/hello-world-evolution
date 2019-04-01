@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+<struts-config>
+    <form-beans>
+        <form-bean name="helloWorldForm"
+                   type="br.com.lsegala.helloworld.form.HelloWorldForm"/>
+    </form-beans>
+    <action-mappings>
+        <action path="/helloWorld"
+                type="br.com.lsegala.helloworld.action.HelloWorldAction"
+                name="helloWorldForm">
+            <forward name="success" path="/WEB-INF/pages/helloWorld.jsp"/>
+        </action>
+    </action-mappings>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin" >
+        <set-property property="definitions-config"
+                      value="/WEB-INF/tiles-def.xml"/>
+    </plug-in>
+</struts-config>
