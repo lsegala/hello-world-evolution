@@ -11,7 +11,7 @@ import org.mortbay.jetty.testing.ServletTester;
 
 import static org.junit.Assert.assertTrue;
 
-public class HelloWorldServletTest {
+public class HelloWorldActionTest {
     private ServletTester tester;
 
     @Before
@@ -32,7 +32,7 @@ public class HelloWorldServletTest {
         HttpTester response = new HttpTester();
 
         request.setMethod("GET");
-        request.setHeader("Host", HelloWorldServletTest.class.getName());
+        request.setHeader("Host", HelloWorldActionTest.class.getName());
         request.setURI("/demo/helloWorld.do");
         response.parse(tester.getResponses(request.generate()));
 
@@ -45,7 +45,7 @@ public class HelloWorldServletTest {
         HttpTester response = new HttpTester();
 
         request.setMethod("GET");
-        request.setHeader("Host", HelloWorldServletTest.class.getName());
+        request.setHeader("Host", HelloWorldActionTest.class.getName());
         request.setURI("/demo/helloWorld.do?name=Leonardo");
         response.parse(tester.getResponses(request.generate()));
 
