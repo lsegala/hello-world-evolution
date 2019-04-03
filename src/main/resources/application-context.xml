@@ -1,0 +1,18 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    <bean id="helloWorldService" class="br.com.lsegala.helloworld.bean.HelloWorldService">
+        <property name="name" value="Spring"/>
+    </bean>
+
+    <bean id="profiler" class="br.com.lsegala.helloworld.bean.SimpleProfiler"/>
+
+    <aop:config>
+        <aop:aspect ref="profiler">
+            <aop:pointcut id="profileMethodsPointcut" expression="execution(* *(..))"/>
+            <aop:around method="profile" pointcut-ref="profileMethodsPointcut"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

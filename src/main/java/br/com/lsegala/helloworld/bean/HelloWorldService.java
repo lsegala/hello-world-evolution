@@ -1,9 +1,11 @@
-package br.com.lsegala.helloworld.form;
+package br.com.lsegala.helloworld.bean;
 
-import org.apache.struts.action.ActionForm;
-
-public class HelloWorldForm extends ActionForm {
+public class HelloWorldService {
     private String name;
+
+    public String sayHello(){
+        return "Hello, "+name+"!";
+    }
 
     public String getName() {
         return name;
