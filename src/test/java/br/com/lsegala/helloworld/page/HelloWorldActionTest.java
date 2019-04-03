@@ -1,15 +1,15 @@
-package br.com.lsegala.helloworld.action;
+package br.com.lsegala.helloworld.page;
 
-import org.apache.jasper.servlet.JspServlet;
-import org.apache.struts.action.ActionServlet;
+import org.apache.wicket.protocol.http.WicketFilter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mortbay.jetty.servlet.ServletHolder;
+import org.mortbay.jetty.servlet.FilterHolder;
 import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
 import static org.junit.Assert.assertTrue;
+import static org.mortbay.jetty.Handler.REQUEST;
 
 public class HelloWorldActionTest {
     private ServletTester tester;
@@ -18,11 +18,10 @@ public class HelloWorldActionTest {
     public void setUp() throws Exception {
         tester = new ServletTester();
         tester.setContextPath("/demo");
-        tester.addServlet(JspServlet.class, "*.jsp");
-        ServletHolder actionServletHolder = tester.addServlet(ActionServlet.class, "*.do");
-        actionServletHolder.setInitOrder(1);
-        actionServletHolder.setInitParameter("config", "/WEB-INF/struts-config.xml");
-        tester.setResourceBase("./src/main/webapp");
+        tester.addServlet("org.mortbay.jetty.servlet.DefaultServlet", "/");
+        FilterHolder filter = tester.addFilter(WicketFilter.class, "/*", REQUEST);
+        filter.setInitParameter("filterMappingUrlPattern", "/*");
+        filter.setInitParameter("applicationClassName", "br.com.lsegala.helloworld.application.HelloWorldApplication");
         tester.start();
     }
 
@@ -33,10 +32,10 @@ public class HelloWorldActionTest {
 
         request.setMethod("GET");
         request.setHeader("Host", HelloWorldActionTest.class.getName());
-        request.setURI("/demo/helloWorld.do");
+        request.setURI("/demo/");
         response.parse(tester.getResponses(request.generate()));
 
-        assertTrue(response.getContent().contains("Hello!"));
+        assertTrue(response.getContent().contains("Hello World!"));
     }
 
     @Test
@@ -46,10 +45,11 @@ public class HelloWorldActionTest {
 
         request.setMethod("GET");
         request.setHeader("Host", HelloWorldActionTest.class.getName());
-        request.setURI("/demo/helloWorld.do?name=Leonardo");
+        String name = "Leonardo";
+        request.setURI("/demo/?name="+name);
         response.parse(tester.getResponses(request.generate()));
 
-        assertTrue(response.getContent().contains("Hello, Leonardo!"));
+        assertTrue(response.getContent().contains("Hello World, "+name+"!"));
     }
 
     @After
