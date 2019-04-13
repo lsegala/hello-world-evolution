@@ -22,7 +22,7 @@ import java.net.URL;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
-public class HelloWorldJEE5Test {
+public class HelloWorldRESTTest {
     @ArquillianResource
     private URL base;
 
