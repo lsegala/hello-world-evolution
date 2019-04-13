@@ -18,7 +18,7 @@ describe('hello.main module', function() {
   }));
 
   it("Should call and return Hello, World!", function(){
-    httpBackend.expectGET('/rest/api/hello').respond(200,{message: 'Hello, World!'});
+    httpBackend.expectGET('/rest/hello').respond(200,{message: 'Hello, World!'});
     scope.init()
     httpBackend.flush();
     expect(scope.message).toEqual("Hello, World!");

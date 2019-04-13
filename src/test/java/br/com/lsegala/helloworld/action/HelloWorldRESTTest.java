@@ -38,10 +38,7 @@ public class HelloWorldRESTTest {
                 .asFile();
 
         return ShrinkWrap.create(WebArchive.class, "demo.war")
-                .addPackages( true, "br.com.lsegala.helloworld.api",
-                        "br.com.lsegala.helloworld.bean",
-                        "br.com.lsegala.helloworld.config",
-                        "br.com.lsegala.helloworld.service")
+                .addPackages( true, "br.com.lsegala.helloworld")
                 .addAsLibraries(files)
                 .addAsWebInfResource(new File("src/main/webapp/WEB-INF/beans.xml"), "beans.xml")
                 .addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"), "web.xml");
