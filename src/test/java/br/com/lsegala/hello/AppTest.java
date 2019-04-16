@@ -1,3 +1,5 @@
+package br.com.lsegala.hello;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
