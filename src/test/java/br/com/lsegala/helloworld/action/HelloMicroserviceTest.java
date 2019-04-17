@@ -29,11 +29,26 @@ public class HelloMicroserviceTest {
     }
 
     @Test
-    public void testMyApplication(TestContext context) {
+    public void testWithNoArgs(TestContext context) {
         final Async async = context.async();
-        vertx.createHttpClient().getNow(port, "localhost", "/", response -> {
+        vertx.createHttpClient().getNow(port, "localhost", "/hello/", response -> {
             response.handler(body -> {
-                context.assertEquals("Hello, World!", body.toString());
+                JsonObject entity = body.toJsonObject();
+                context.assertTrue(entity != null && entity.containsKey("message"));
+                context.assertEquals("Hello!", entity.getString("message"));
+                async.complete();
+            });
+        });
+    }
+
+    @Test
+    public void testWithArgs(TestContext context) {
+        final Async async = context.async();
+        vertx.createHttpClient().getNow(port, "localhost", "/hello/Leonardo", response -> {
+            response.handler(body -> {
+                JsonObject entity = body.toJsonObject();
+                context.assertTrue(entity != null && entity.containsKey("message"));
+                context.assertEquals("Hello, Leonardo!", entity.getString("message"));
                 async.complete();
             });
         });
