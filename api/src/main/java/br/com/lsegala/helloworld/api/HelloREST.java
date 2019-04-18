@@ -3,10 +3,7 @@ package br.com.lsegala.helloworld.api;
 import br.com.lsegala.helloworld.HelloService;
 import br.com.lsegala.helloworld.bean.Content;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class HelloREST {
@@ -17,6 +14,7 @@ public class HelloREST {
         this.helloService = helloService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(path = "/hello", method = RequestMethod.GET)
     public Content sayHello(){
         Content content = new Content();
@@ -24,6 +22,7 @@ public class HelloREST {
         return content;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(path = "/hello/{name}", method = RequestMethod.GET)
     public Content sayHello(@PathVariable String name){
         Content content = new Content();
