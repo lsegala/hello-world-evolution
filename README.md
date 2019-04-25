@@ -83,3 +83,11 @@ Criado e distribuído junto com o Java 9, sua proposta foi criar uma nova formar
 ## 2019 - Quarkus IO
 
 Stack de bibliotecas e frameworks em Java para desenvolver aplicações em microserviços para nuvem.
+
+```
+$ eval $(minikube docker-env)
+$ docker build -f src/main/docker/Dockerfile.native -t quarkus-quickstart/quickstart .
+$ kubectl run quarkus-quickstart --image=quarkus-quickstart/quickstart:latest --port=8080 --image-pull-policy=IfNotPresent
+$ kubectl expose deployment quarkus-quickstart --type=NodePort
+$ curl $(minikube service quarkus-quickstart --url)/hello
+```
