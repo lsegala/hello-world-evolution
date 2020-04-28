@@ -80,6 +80,11 @@ Orquestrador de containers criado pela Google e amplamente adotado hoje em dia.
 
 Criado e distribuído junto com o Java 9, sua proposta foi criar uma nova formar de empacotar e distribuir as aplicações
 
+## 2017 - JEE 8
+
+A Oracle lança uma versão reduzida da nova versão enterprise do Java.
+No final do ano, ela decide transferir o Java EE inteiramente para uma iniciativa open source. Em parceria com parceiros Java EE, como Red Hat e IBM, ela decide transferir a referência de implamentação do Java EE e o TCK (Kit de Compatibilidade da Tecnlogia) inteiramente para fundação Eclipse.
+
 ## 2019 - Quarkus IO
 
 Stack de bibliotecas e frameworks em Java para desenvolver aplicações em microserviços para nuvem.
