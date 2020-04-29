@@ -85,6 +85,14 @@ Criado e distribuído junto com o Java 9, sua proposta foi criar uma nova formar
 A Oracle lança uma versão reduzida da nova versão enterprise do Java.
 No final do ano, ela decide transferir o Java EE inteiramente para uma iniciativa open source. Em parceria com parceiros Java EE, como Red Hat e IBM, ela decide transferir a referência de implamentação do Java EE e o TCK (Kit de Compatibilidade da Tecnlogia) inteiramente para fundação Eclipse.
 
+```
+$ eval $(minikube docker-env)
+$ docker build -t hello-world-microprofile .
+$ kubectl run hello-world --image=hello-world-microprofile:latest --port=8080 --image-pull-policy=IfNotPresent
+$ kubectl expose deployment hello-world --type=NodePort
+$ curl $(minikube service quarkus-quickstart --url)/hello
+```
+
 ## 2019 - Quarkus IO
 
 Stack de bibliotecas e frameworks em Java para desenvolver aplicações em microserviços para nuvem.
