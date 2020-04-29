@@ -1,34 +1,46 @@
 package br.com.lsegala.helloworld.api;
 
-import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.Test;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.Filters;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.wildfly.swarm.arquillian.DefaultDeployment;
 
-import java.util.UUID;
+import javax.inject.Inject;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 
-@QuarkusTest
+@RunWith(Arquillian.class)
+@DefaultDeployment(type = DefaultDeployment.Type.WAR)
 public class GreetingResourceTest {
+    @Inject
+    private GreetingResource greetingResource;
 
-    @Test
-    public void testHelloEndpoint() {
-        given()
-                .when().get("/hello")
-                .then()
-                .statusCode(200)
-                .body(is("Hello!"));
+    @Deployment
+    public static WebArchive demoDeployment(){
+        return ShrinkWrap.create(WebArchive.class)
+                .addPackages(
+                        true, Filters.exclude("*Test*"),
+                        GreetingResource.class.getPackage())
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
-    public void testGreetingEndpoint() {
-        String uuid = UUID.randomUUID().toString();
-        given()
-                .pathParam("name", uuid)
-                .when().get("/hello/greeting/{name}")
-                .then()
-                .statusCode(200)
-                .body(is("Hello, " + uuid + "!"));
+    public void testWithNoArg(){
+        final Response response = greetingResource.hello();
+        assertEquals("Hello!", response.getEntity()+"");
     }
 
+    @Test
+    public void testWithArg(){
+        final Response response = greetingResource.greeting("SouJava");
+        assertEquals("Hello, SouJava!", response.getEntity()+"");
+    }
 }
