@@ -14,13 +14,13 @@ public class HelloWorldServiceTest extends AbstractDependencyInjectionSpringCont
         assertNotNull(helloWorldService);
     }
 
-    public void testDefaultValue(){
+    public void testDefaultValue() throws InterruptedException {
         assertEquals("Hello, Spring!", helloWorldService.sayHello());
     }
 
-    public void testCustomValue(){
-        helloWorldService.setName("Leonardo");
-        assertEquals("Hello, Leonardo!", helloWorldService.sayHello());
+    public void testCustomValue() throws InterruptedException {
+        helloWorldService.setName("Sou Java");
+        assertEquals("Hello, Sou Java!", helloWorldService.sayHello());
     }
 
     @Override
