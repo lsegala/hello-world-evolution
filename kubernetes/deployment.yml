@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-microprofile
+  labels:
+    app: hello-world-microprofile
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world-microprofile
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: hello-world-microprofile
+        tier: backend
+    spec:
+      containers:
+      - env:
+        - name: JAVA_OPTIONS
+          value: -Xms128m -Xmx256m -Djava.net.preferIPv4Stack=true -Djava.security.egd=file:///dev/./urandom
+        - name: GREETING_BACKENDSERVICEHOST
+          value: backend
+        image: leonardosegala/hello-world-microprofile:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet: # make an HTTP request
+              port: 8080 # port to use
+              path: /hello # endpoint to hit
+              scheme: HTTP # or HTTPS
+          initialDelaySeconds: 20
+          periodSeconds: 5
+          timeoutSeconds: 1
+        name: hello-world-microprofile
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet: # make an HTTP request
+              port: 8080 # port to use
+              path: /hello # endpoint to hit
+              scheme: HTTP # or HTTPS
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 1
