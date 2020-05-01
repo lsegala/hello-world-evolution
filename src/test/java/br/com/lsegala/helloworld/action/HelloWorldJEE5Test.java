@@ -59,7 +59,7 @@ public class HelloWorldJEE5Test {
     @Test
     @RunAsClient
     public void testWithArgs() {
-        webDriver.get(this.base.toExternalForm() + "helloWorld.jsf?name=Leonardo");
-        assertEquals("Hello, Leonardo!", message.getText());
+        webDriver.get(this.base.toExternalForm() + "helloWorld.jsf?name=Sou%20Java");
+        assertEquals("Hello, Sou Java!", message.getText());
     }
 }
