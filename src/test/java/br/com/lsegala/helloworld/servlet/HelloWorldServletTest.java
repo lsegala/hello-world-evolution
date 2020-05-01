@@ -41,10 +41,10 @@ public class HelloWorldServletTest {
 
         request.setMethod("GET");
         request.setHeader("Host", HelloWorldServletTest.class.getName());
-        request.setURI("/demo/hello?name=Sou Java");
+        request.setURI("/demo/hello?name=Sou%20Java");
         response.parse(tester.getResponses(request.generate()));
 
-        assertEquals("<html><body><h1>Hello World, Leonardo!</h1></body></html>", response.getContent());
+        assertEquals("<html><body><h1>Hello World, Sou Java!</h1></body></html>", response.getContent());
     }
 
     @After
