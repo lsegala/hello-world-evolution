@@ -54,10 +54,10 @@ public class HelloWorldServletTest {
 
         request.setMethod("GET");
         request.setHeader("Host", HelloWorldServletTest.class.getName());
-        request.setURI("/demo/hello?name=Leonardo");
+        request.setURI("/demo/hello?name=Sou%20Java");
         response.parse(tester.getResponses(request.generate()));
 
-        assertEquals(template(", Leonardo"), response.getContent());
+        assertEquals(template(", Sou Java"), response.getContent());
     }
 
     @After
