@@ -46,10 +46,10 @@ public class HelloWorldActionTest {
 
         request.setMethod("GET");
         request.setHeader("Host", HelloWorldActionTest.class.getName());
-        request.setURI("/demo/helloWorld.do?name=Leonardo");
+        request.setURI("/demo/helloWorld.do?name=Sou%20Java");
         response.parse(tester.getResponses(request.generate()));
 
-        assertTrue(response.getContent().contains("Hello, Leonardo!"));
+        assertTrue(response.getContent().contains("Hello, Sou Java!"));
     }
 
     @After
