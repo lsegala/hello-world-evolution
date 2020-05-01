@@ -30,7 +30,7 @@ public class HelloBeanTest {
     @Test
     public void testHelloWithName() throws NamingException {
         SayHello helloBean = (SayHello) context.lookup(JNDI);
-        String name = "Leonardo";
+        String name = "Sou Java";
         assertEquals("Hello world, "+name+"!", helloBean.sayHello(name));
     }
 
