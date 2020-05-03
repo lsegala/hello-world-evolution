@@ -17,10 +17,10 @@ describe('hello.main module', function() {
     controller('MainCtrl', {$scope: scope})
   }));
 
-  it("Should call and return Hello, World!", function(){
-    httpBackend.expectGET('/rest/hello').respond(200,{message: 'Hello, World!'});
+  it("Should call and return Hello, Sou Java!", function(){
+    httpBackend.expectGET('/rest/hello').respond(200,{message: 'Hello!'});
     scope.init()
     httpBackend.flush();
-    expect(scope.message).toEqual("Hello, World!");
+    expect(scope.message).toEqual("Hello!");
   });
 });

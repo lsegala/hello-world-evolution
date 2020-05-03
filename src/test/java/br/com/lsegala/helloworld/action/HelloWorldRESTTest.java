@@ -57,8 +57,8 @@ public class HelloWorldRESTTest {
     @RunAsClient
     public void testWithArgs() throws IOException {
         Client client = ClientBuilder.newClient();
-        Response response = client.target(this.base.toExternalForm() + "rest/hello/Leonardo").request("application/json").get();
+        Response response = client.target(this.base.toExternalForm() + "rest/hello/Sou Java").request("application/json").get();
         Info info = objectMapper.readValue(response.readEntity(String.class), Info.class);
-        assertEquals("Hello, Leonardo!", info.message);
+        assertEquals("Hello, Sou Java!", info.message);
     }
 }
