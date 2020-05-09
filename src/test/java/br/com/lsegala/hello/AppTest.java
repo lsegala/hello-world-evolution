@@ -29,8 +29,8 @@ public class AppTest {
 
     @Test
     public void testOutputHelloWorld(){
-        App.main(new String[]{"Leonardo"});
-        assertEquals("Hello world, Leonardo!"+EOL, bytes.toString());
+        App.main(new String[]{"Sou Java"});
+        assertEquals("Hello world, Sou Java!"+EOL, bytes.toString());
     }
 
     @After
