@@ -1,10 +1,10 @@
 version: '3'
 services:
   api:
-    image: "hello-api"
+    build: api
     ports:
       - "8080:8080"
   web:
-    image: "hello-web"
+    build: web
     ports:
-      - "4200:4200"
+      - "80:80"

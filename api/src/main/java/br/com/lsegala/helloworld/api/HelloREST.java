@@ -14,7 +14,7 @@ public class HelloREST {
         this.helloService = helloService;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "*")
     @RequestMapping(path = "/hello", method = RequestMethod.GET)
     public Content sayHello(){
         Content content = new Content();
@@ -22,7 +22,7 @@ public class HelloREST {
         return content;
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "*")
     @RequestMapping(path = "/hello/{name}", method = RequestMethod.GET)
     public Content sayHello(@PathVariable String name){
         Content content = new Content();
