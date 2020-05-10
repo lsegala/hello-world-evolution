@@ -17,7 +17,7 @@ angular.module('hello.main', ['ngRoute'])
 .service('HelloService', ['$http', function(http){
     return {
         sayHello: function(callback){
-            return http.get('/rest/hello', {headers: {'Content-type': 'application/json'}})
+            return http.get('/hello-world-evolution/rest/hello', {headers: {'Content-type': 'application/json'}})
                 .then(callback);
         }
     }
