@@ -9,6 +9,7 @@ import org.mortbay.jetty.testing.HttpTester;
 import org.mortbay.jetty.testing.ServletTester;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class HelloWorldServletTest {
     private static final String EOL = System.getProperty("line.separator");
@@ -25,15 +26,6 @@ public class HelloWorldServletTest {
         tester.start();
     }
 
-    private String template(String compl){
-        return EOL + EOL +
-                "<html>" + EOL +
-                "    <body>" + EOL +
-                "        <h1>Hello"+compl+"!</h1>" + EOL +
-                "    </body>" + EOL +
-                "</html>";
-    }
-
     @Test
     public void helloWorldHttpTestWithNoParams() throws Exception {
         HttpTester request = new HttpTester();
@@ -44,7 +36,7 @@ public class HelloWorldServletTest {
         request.setURI("/demo/hello");
         response.parse(tester.getResponses(request.generate()));
 
-        assertEquals(template(""), response.getContent());
+        assertTrue(response.getContent().contains("Hello!"));
     }
 
     @Test
@@ -57,7 +49,7 @@ public class HelloWorldServletTest {
         request.setURI("/demo/hello?name=Sou%20Java");
         response.parse(tester.getResponses(request.generate()));
 
-        assertEquals(template(", Sou Java"), response.getContent());
+        assertTrue(response.getContent().contains("Hello, Sou Java!"));
     }
 
     @After
