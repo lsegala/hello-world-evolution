@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertNotNull;
+
 @RunWith(VertxUnitRunner.class)
 public class HelloMicroserviceTest {
     private Vertx vertx;
@@ -31,14 +33,14 @@ public class HelloMicroserviceTest {
     @Test
     public void testWithNoArgs(TestContext context) {
         final Async async = context.async();
-        vertx.createHttpClient().getNow(port, "localhost", "/hello/", response -> {
+        vertx.createHttpClient().getNow(port, "localhost", "/hello/", response ->
             response.handler(body -> {
                 JsonObject entity = body.toJsonObject();
-                context.assertTrue(entity != null && entity.containsKey("message"));
+                assertNotNull(entity);
+                context.assertTrue(entity.containsKey("message"));
                 context.assertEquals("Hello!", entity.getString("message"));
                 async.complete();
-            });
-        });
+            }));
     }
 
     @Test

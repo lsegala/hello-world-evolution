@@ -3,7 +3,7 @@ FROM vertx/vertx3
 
 #                                                       (1)
 ENV VERTICLE_NAME br.com.lsegala.helloworld.HelloMicroservice
-ENV VERTICLE_FILE target/hello-world-evolution-1.0-SNAPSHOT.jar
+ENV VERTICLE_FILE target/vertex-1.0-SNAPSHOT.jar
 
 # Set the location of the verticles
 ENV VERTICLE_HOME /usr/verticles
