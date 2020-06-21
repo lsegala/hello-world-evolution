@@ -1,59 +1,91 @@
 package br.com.lsegala.helloworld.action;
 
-import org.apache.jasper.servlet.JspServlet;
-import org.apache.struts.action.ActionServlet;
-import org.junit.After;
-import org.junit.Before;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
-import org.mortbay.jetty.servlet.ServletHolder;
-import org.mortbay.jetty.testing.HttpTester;
-import org.mortbay.jetty.testing.ServletTester;
+import org.junit.runner.RunWith;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import static org.junit.Assert.assertTrue;
 
+@RunWith(Arquillian.class)
 public class HelloWorldActionTest {
-    private ServletTester tester;
+    @ArquillianResource
+    private URL base;
 
-    @Before
-    public void setUp() throws Exception {
-        tester = new ServletTester();
-        tester.setContextPath("/demo");
-        tester.addServlet(JspServlet.class, "*.jsp");
-        ServletHolder actionServletHolder = tester.addServlet(ActionServlet.class, "*.do");
-        actionServletHolder.setInitOrder(1);
-        actionServletHolder.setInitParameter("config", "/WEB-INF/struts-config.xml");
-        tester.setResourceBase("./src/main/webapp");
-        tester.start();
+    @Deployment(testable = false)
+    public static WebArchive createDeployment() {
+        File[] files = Maven.resolver()
+                .loadPomFromFile("pom.xml")
+                .importRuntimeDependencies()
+                .resolve()
+                .withTransitivity()
+                .asFile();
+
+        return ShrinkWrap.create(WebArchive.class, "demo.war")
+                .addPackages( true,
+                        "br.com.lsegala.helloworld.action",
+                        "br.com.lsegala.helloworld.form")
+                .addAsLibraries(files)
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/pages/template/default.jsp"), "pages/template/default.jsp")
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/pages/helloWorld.jsp"), "pages/helloWorld.jsp")
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/pages/helloWorldImpl.jsp"), "pages/helloWorldImpl.jsp")
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/struts-config.xml"), "struts-config.xml")
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/tiles-def.xml"), "tiles-def.xml")
+                .addAsWebInfResource(new File("src/main/webapp/WEB-INF/web.xml"), "web.xml");
     }
 
     @Test
-    public void helloWorldHttpTestWithNoParams() throws Exception {
-        HttpTester request = new HttpTester();
-        HttpTester response = new HttpTester();
-
-        request.setMethod("GET");
-        request.setHeader("Host", HelloWorldActionTest.class.getName());
-        request.setURI("/demo/helloWorld.do");
-        response.parse(tester.getResponses(request.generate()));
-
-        assertTrue(response.getContent().contains("Hello!"));
+    @RunAsClient
+    public void testWithNoArgs() throws IOException {
+        assertTrue(sendRequestToServer(null).contains("Hello!"));
     }
 
     @Test
-    public void helloWorldHttpTestWithParam() throws Exception {
-        HttpTester request = new HttpTester();
-        HttpTester response = new HttpTester();
-
-        request.setMethod("GET");
-        request.setHeader("Host", HelloWorldActionTest.class.getName());
-        request.setURI("/demo/helloWorld.do?name=Sou%20Java");
-        response.parse(tester.getResponses(request.generate()));
-
-        assertTrue(response.getContent().contains("Hello, Sou Java!"));
+    @RunAsClient
+    public void testWithArgs() throws IOException {
+        assertTrue(sendRequestToServer("Sou%20Java").contains("Hello, Sou Java!"));
     }
 
-    @After
-    public void tearDown() throws Exception {
-        tester.stop();
+    private String sendRequestToServer(String parameter) throws IOException {
+        HttpURLConnection conn = null;
+        String response = null;
+        try {
+            URL url = new URL(
+                    this.base.toExternalForm() +
+                    "helloWorld.do" +
+                    (parameter != null? "?name="+parameter : ""));
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+
+            response = readOutput(new InputStreamReader(conn.getInputStream()));
+        }finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return response;
+    }
+
+    private String readOutput(InputStreamReader in) throws IOException {
+        BufferedReader br = new BufferedReader(in);
+
+        StringBuilder output = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            output.append(line);
+        }
+        return output.toString();
     }
 }
