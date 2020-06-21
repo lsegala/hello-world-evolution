@@ -11,7 +11,7 @@ import javax.naming.NamingException;
 import static org.junit.Assert.assertEquals;
 
 public class HelloBeanTest {
-    private static final String JNDI = "java:global/demo/HelloBean";
+    private static final String JNDI = "java:global/08-jee5/HelloBean";
     private EJBContainer ejbContainer;
     private Context context;
 
