@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+ <servers>
+    <server>
+      <id>nexus-releases</id>
+      <username>test</username> <!-- usuario da rede do sebrae -->
+      <password>123456</password>
+    </server>
+    <server>
+      <id>nexus-snapshots</id>
+      <username>test</username> <!-- usuario da rede do sebrae -->
+      <password>123456</password>
+    </server>
+  </servers>
+  <mirrors>
+    <mirror>
+      <id>nexus-releases</id>
+      <name>central</name>
+      <url>https://nexus.sebrae.com.br/repository/maven-public/</url>
+      <mirrorOf>*</mirrorOf>
+    </mirror>
+  </mirrors>
+  <pluginGroups>
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+    </pluginGroups>
+    <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <sonar.host.url>
+                  https://sonar.sebrae.com.br
+                </sonar.host.url>
+            </properties>
+        </profile>
+     </profiles>
+</settings>
